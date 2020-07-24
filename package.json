@@ -1,0 +1,28 @@
+{
+    "name": "view-koa",
+    "version": "1.0.0",
+    "description": "koa 2 example with nunjucks as view",
+    "main": "app.js",
+    "scripts": {
+        "start": "node --use_strict ./src/app.js"
+    },
+    "keywords": [
+        "koa",
+        "async",
+        "nunjucks"
+    ],
+    "author": "Michael Liao",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/michaelliao/learn-javascript.git"
+    },
+    "dependencies": {
+        "koa": "2.13.0",
+        "koa-bodyparser": "4.3.0",
+        "koa-router": "9.1.0",
+        "nunjucks": "3.2.2",
+        "mime": "2.4.6",
+        "mz": "2.7.0"
+    }
+}

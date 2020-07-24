@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block main %}
+<section id="articles"> <!-- A new section with the articles -->
+	<!-- Article 1 start -->
+    <div class="line"></div>  <!-- Dividing line -->
+    <article id="article1"> <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
+        <h2>Time series of Confirmed cases</h2>
+        <div class="line"></div>
+        <div class="tooltip" name="tooltip" opacity=0></div>
+        <div id="time">
+        </div>
+        <div id="state-selector-container">
+            <p>Select state: </p>
+            <select id="state-selector"></select>
+        </div>
+        <!--
+        <div>Toggle Sort <input type="checkbox" class="sort" /></div>
+        -->
+    </article>
+	<!-- Article 1 end -->
+</section>
+
+{% endblock %}
