@@ -1,4 +1,4 @@
-# cs498dv
+# Project for CS498DV
 ## Yichen Yu, yy20@illinois.edu
 Data visualization project using d3.js v5
 
@@ -8,8 +8,8 @@ Data visualization project using d3.js v5
 - Backend scripts are modifed from the following tutorial blog: https://github.com/michaelliao/learn-javascript.git
 
 ## Start
-- npm install
-- npm start
+- `npm install`
+- `npm start`
 - hosted at http://localhost:8888/
 
 ## File structure
