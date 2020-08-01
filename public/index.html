@@ -1,9 +1,13 @@
 {% extends "base.html" %} {% block main %}
-<section id="articles"> <!-- A new section with the articles -->
-    <div class="line"></div>  <!-- Dividing line -->
-    <article id="article1"> <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
+<section class="scenes">
+    <div class="line"></div>
+    <article id="scene1">
         <h2>Overview of COVID-19 in US</h2>
         <div class="line"></div>
+        <div><p>COVID-19 confirmed case distribution among each county is shown in the geo-graph below.
+            Data has been collected till 7/20/20. Due to the uneven distribution of cases, especially those cases are highly clustered and mostly cases are centered in few places, a linear color scale that ephasizes on differences at low cases are presented.
+            From the map we can learn that cases are highly clustered at west and east states, southeast, and the Great Lakes states. In contrast, the Central Plains have sporadic cases. This geographic distribution is consistent with population distribution and US economic landscape. 
+        </p></div>
         <div id="us">
         </div>
     </article>
