@@ -1,32 +1,26 @@
 {% extends "base.html" %} {% block main %}
-<section id="articles"> <!-- A new section with the articles -->
-	<!-- Article 1 start -->
-    <div class="line"></div>  <!-- Dividing line -->
-    <article id="article1"> <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
+<section class="scenes">
+    <div class="line"></div>
+    <article id="scene2">
         <h2>Confirmed cases by state</h2>
         <div class="line"></div>
         <div class="tooltip" name="tooltip" opacity=0></div>
-        <p>Click each bar for detailed information of a state. </p>
+        <p>This bar chart represents the sorted and aggregated confimred cases by states. The trend is consistent with the overview map that cases are mostly distributed in few states. </p>
+        <p>To learn more about composition of confirmed cases, click each bar and scroll down for detailed information of a state. </p>
         <div id="state">
         </div>
-        <!--
-        <div>Toggle Sort <input type="checkbox" class="sort" /></div>
-        -->
     </article>
-	<!-- Article 1 end -->
-	<!-- Article 2 start -->
     <div class="line"></div>
-    <article id="article2">
+    <article id="scene3">
         <h2 id="case-details">Case details</h2>
         <div class="line"></div>
-        <div class="articleBody clear">
+        <div class="pie">
             <figure id="state-specific">
             </figure>
             <p>Here is the detailed confirmed case composition partitioned as "Deaths", "Infected", and "Recovered".</p>
             <p>From the pie chart we can learn that the composition of the three part differs greatly among states. For some states such as Massachusetts, Texas, Pennsylvania, etc have significantly higher recovered ratio, while in many other states the infected is the majority of the confirmed cases. This indicates the degree of hospital saturation and if this state has reached a "turn point". </p>
         </div>
     </article>
-    <!-- Article 2 end -->
 </section>
 
 {% endblock %}

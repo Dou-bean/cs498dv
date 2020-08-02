@@ -1,21 +1,14 @@
 {
-    "name": "view-koa",
+    "name": "CS498-DV",
     "version": "1.0.0",
-    "description": "koa 2 example with nunjucks as view",
+    "description": "koa2-backend for data visualization project",
     "main": "app.js",
     "scripts": {
         "start": "node --use_strict ./src/app.js"
     },
-    "keywords": [
-        "koa",
-        "async",
-        "nunjucks"
-    ],
-    "author": "Michael Liao",
-    "license": "Apache-2.0",
     "repository": {
         "type": "git",
-        "url": "https://github.com/michaelliao/learn-javascript.git"
+        "url": "https://github.com/Dou-bean/cs498dv-yy"
     },
     "dependencies": {
         "koa": "2.13.0",

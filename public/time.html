@@ -1,22 +1,21 @@
 {% extends "base.html" %} {% block main %}
-<section id="articles"> <!-- A new section with the articles -->
-	<!-- Article 1 start -->
-    <div class="line"></div>  <!-- Dividing line -->
-    <article id="article1"> <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
+<section class="scenes">
+    <div class="line"></div>
+    <article id="scene4">
         <h2>Time series of Confirmed cases</h2>
         <div class="line"></div>
         <div class="tooltip" name="tooltip" opacity=0></div>
         <div id="time">
         </div>
+        <div>
+            <p>This chart shows how the total confirmed cases change with time. The case number starts soaring at late March or early April. In May, COVID-19 is partially controlled due to the lock-down action in most states; however, as reponing starts at late Jun, a second turning point appears.</p>
+            <p>To toggle between states, please select: </p>
+        </div>
         <div id="state-selector-container">
             <p>Select state: </p>
             <select id="state-selector"></select>
         </div>
-        <!--
-        <div>Toggle Sort <input type="checkbox" class="sort" /></div>
-        -->
     </article>
-	<!-- Article 1 end -->
 </section>
 
 {% endblock %}

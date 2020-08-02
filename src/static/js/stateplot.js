@@ -1,4 +1,4 @@
-
+// this script plots the bar plot of cases by states and the corresponding pie plot
 d3.csv("/src/static/data/state.csv").then(data => chart(data));
 function chart(data) {
 	data.forEach(d => {
@@ -18,104 +18,83 @@ function chart(data) {
 		keys = ["Deaths", "Infected", "Recovered"],
 		keysColor = ["red", "#db9e2c", "lightblue"];
 
-
-	var padding = {
-		top: 10,
-		bottom: 50,
-		left: 50,
-		right: 50
-	};
+		padding = {
+			top: 10,
+			bottom: 100,
+			left: 80,
+			right: 80
+		};
 
     var
         svgWidth = 900,
         svgHeight = 450,
 		width = svgWidth - padding.left - padding.right,
-		height = svgHeight - padding.left - padding.right,
+		height = svgHeight - padding.top - padding.bottom,
 
         svg = d3.select("#state").append("svg")
             .attr("width", svgWidth)
-            .attr("height", svgHeight),
+			.attr("height", svgHeight),
+
 		plotArea = svg.append("g")
 			.attr("transform",  "translate(" + padding.left + "," + padding.top + ")"),
 
-		xScale = d3.scaleBand().range([0, width]).padding(0.2),
-		yScale = d3.scaleLinear().range([height, 0]);
+		pieChartAera = d3.select("#state-specific").append("svg")
+			.attr("width", 500)
+			.attr("height", 300)
+			.attr("id", "state-specific-svg"),
+
+		// transition speed
+		speed = 2500,
+
+		xScale = d3.scaleBand().range([0, width]).padding(0.2)
+			.domain(data.map(d => d.Province_State)),
+
+		xAxis = d3.axisBottom(xScale),
+
+		yScale = d3.scaleLinear().range([height, 0])
+			.domain([0, d3.max(data, d => d.Confirmed)]),
+
+		yAxis = d3.axisLeft(yScale),
+
+		// not used
 		zScale = d3.scaleOrdinal()
 			.range(keysColor)
 			.domain(keys);
 
-		svg.append("g")
-			.attr("transform", "translate(" + padding.left + "," + padding.top + ")")
-			.attr("class", "y-axis");
-    	svg.append("g")
-			.attr("transform", "translate(" + padding.left + "," + (padding.top + height) + ")")
-			.attr("class", "x-axis")
-			.selectAll("text").attr("transform", "rotate(45)").style("text-anchor", "start");
+	svg.append("g")
+		.attr("transform", "translate(" + padding.left + "," + (padding.top) + ")")
+		.attr("class", "y-axis-scene-2");
 
-	update(data, xScale, yScale, zScale, keys, keysColor, states, svg, plotArea, height, width, 2500);
+    svg.append("g")
+		.attr("transform", "translate(" + padding.left + "," + (padding.top + height) + ")")
+		.attr("class", "x-axis-scene-2")
+		.selectAll("text").attr("transform", "rotate(45)").style("text-anchor", "start");
 
-	/*
-	// plot legend
-	var lengend = d3.select("#state-specific").selectAll(".legend").data(keys).enter()
-		.append("g")
-		.attr("class", "lengend");
-
-	lengend.append("rect")
-		.attr("width", "18")
-		.attr("height", "12")
-		.attr("x", width - 20)
-		.attr("y", (d, i) => 20 * i)
-		.style("fill", (d, i) => keysColor[i])
-		.style("stroke", "black");
-
-	lengend.append("text")
-		.attr("x", width - 24)
-		.attr("y", (d, i) => 20 * i + 10)
-		.style("text-anchor", "end")
-		.attr("fill", "#fff")
-		.text(d => d);
-	*/
-
-	/*
-	d3.select(".sort")
-		.on("click", () => update(data, xScale, yScale, zScale, keys, states, svg, plotArea, 2500));
-	*/
-}
-
-function update(data, xScale, yScale, zScale, keys, keysColor, states, svg, plotArea, height, width, speed){
-
-	yScale.domain([0, d3.max(data, d => d.Confirmed)]);
-	var	yAxis = d3.axisLeft(yScale);
-	svg.selectAll(".y-axis")
+	svg.selectAll(".y-axis-scene-2")
 		.transition().duration(speed)
 		.call(yAxis);
 
-	xScale.domain(data.map(d => d.Province_State));
-	var	xAxis = d3.axisBottom(xScale);
-	svg.selectAll(".x-axis")
+	svg.selectAll(".x-axis-scene-2")
 		.transition().duration(speed)
 		.call(xAxis)
 		.selectAll("text").attr("transform", "rotate(45)").style("text-anchor", "start");
 
-	pieChartAera = d3.select("#state-specific")
-		.append("svg")
-			.attr("width", 500)
-			.attr("height", 300)
-			.attr("id", "state-specific-svg")
+	//update(data, xScale, yScale, zScale, keys, keysColor, states, svg, plotArea, height, width, 2500);
+
 
 	var bars = plotArea.selectAll("rect").data(data).enter().append("rect")
-		.on("click", (d) => {
-			d3.select(".state-specific-piechart").remove();
-			pie(d.Province_State);
-		})
-		.on("mouseover", (d) => {
-			var tooltip = d3.select(".tooltip");
-			tooltip.transition().duration(50)
-				.style("opacity", 1)
-				.style("left", (d3.event.pageX) + "px")
-				.style("top", (d3.event.pageY) + "px");
-			tooltip.html("<p>" + d.Province_State + "</p><p> Confirmed case: " + d.Confirmed + " </p>");
-		});
+			.on("click", (d) => {
+				d3.select(".state-specific-piechart").remove();
+				pie(d.Province_State);
+			})
+			.on("mouseover", (d) => {
+				var tooltip = d3.select(".tooltip");
+				tooltip.transition().duration(50)
+					.style("opacity", 1)
+					.style("left", (d3.event.pageX - 130) + "px")
+					.style("top", (d3.event.pageY - 50) + "px");
+				tooltip.html("<p>" + d.Province_State + "</p><p> Confirmed case: " + d.Confirmed + " </p>");
+			});
 
 	// initialize the lengend and pie chart
 	pieLengend(keys, keysColor);
@@ -125,12 +104,11 @@ function update(data, xScale, yScale, zScale, keys, keysColor, states, svg, plot
 		.attr("width", xScale.bandwidth())
 		.attr("y", (d, i) => yScale(0))
 		.attr("height", (d, i) => height - yScale(0))
-        .attr("fill", "lightblue")
+		.attr("fill", "lightblue")
 		.attr("stroke", "black")
-		.transition().duration(2500)
+		.transition().duration(speed)
 		.attr("y", (d, i) => yScale(d.Confirmed))
 		.attr("height", (d, i) => height - yScale(d.Confirmed));
-
 }
 
 function pieLengend(keys, keysColor) {
@@ -147,7 +125,7 @@ function pieLengend(keys, keysColor) {
 		.style("stroke", "black");
 
 	lengend.append("text")
-		.attr("x", 440)
+		.attr("x", 430)
 		.attr("y", (d, i) => 20 * (i + 1) + 10)
 		.style("text-anchor", "end")
 		.attr("fill", "#fff")
@@ -188,4 +166,59 @@ async function pie(state){
 			.attr("fill", (d, i) => keysColor[i]);
 
 	d3.select("#case-details").text("Case details in " + state);
+}
+
+// not used; used for previous version, a stacked histogram for confirmed, death and active cases
+function update(data, xScale, yScale, zScale, keys, keysColor, states, svg, plotArea, height, width, speed){
+	/*
+	yScale.domain([0, d3.max(data, d => d.Confirmed)]);
+	var	yAxis = d3.axisLeft(yScale);
+	svg.selectAll(".y-axis-scene-2")
+		.transition().duration(speed)
+		.call(yAxis);
+	*/
+
+	/*
+	xScale.domain(data.map(d => d.Province_State));
+	var	xAxis = d3.axisBottom(xScale);
+	svg.selectAll(".x-axis-scene-2")
+		.transition().duration(speed)
+		.call(xAxis)
+		.selectAll("text").attr("transform", "rotate(45)").style("text-anchor", "start");
+	*/
+
+	pieChartAera = d3.select("#state-specific")
+		.append("svg")
+			.attr("width", 500)
+			.attr("height", 300)
+			.attr("id", "state-specific-svg")
+
+	var bars = plotArea.selectAll("rect").data(data).enter().append("rect")
+		.on("click", (d) => {
+			d3.select(".state-specific-piechart").remove();
+			pie(d.Province_State);
+		})
+		.on("mouseover", (d) => {
+			var tooltip = d3.select(".tooltip");
+			tooltip.transition().duration(50)
+				.style("opacity", 1)
+				.style("left", (d3.event.pageX) + "px")
+				.style("top", (d3.event.pageY) + "px");
+			tooltip.html("<p>" + d.Province_State + "</p><p> Confirmed case: " + d.Confirmed + " </p>");
+		});
+
+	// initialize the lengend and pie chart
+	pieLengend(keys, keysColor);
+	pie("New York");
+
+	bars.attr("x", (d, i) => xScale(d.Province_State))
+		.attr("width", xScale.bandwidth())
+		.attr("y", (d, i) => yScale(0))
+		.attr("height", (d, i) => height - yScale(0))
+        .attr("fill", "lightblue")
+		.attr("stroke", "black")
+		.transition().duration(2500)
+		.attr("y", (d, i) => yScale(d.Confirmed))
+		.attr("height", (d, i) => height - yScale(d.Confirmed));
+
 }

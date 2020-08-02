@@ -69,6 +69,7 @@ function plotLineChart(data, state, xScale, yScale, height) {
         .call(d3.axisLeft(yScale));
 
     // line object formed after y-domain is determined
+    // this was finally not used since the circle density is high enough
     var line = d3.line()
             .x((d, i) => xScale(i)) // set the x values for the line generator
             .y(d => yScale(+d[state])) // set the y values for the line generator
@@ -83,9 +84,24 @@ function plotLineChart(data, state, xScale, yScale, height) {
         .transition().duration(2000)
             .attr("cy", d => yScale(+d[state]));
     //console.log(plotArea);
-    //if (state === "Total") plotAnnotation();
+
+    d3.select(".tooltip-notation").style("opacity", 0).html("");
+
+    if (state === "Total") setTimeout(plotAnnotation, 2000);
 }
 
 function plotAnnotation(){
-    // todo
+    d3.select(".plot-line-chart").append("circle")
+            .attr("class", "annotation")
+            .attr("cx", 630)
+            .attr("cy", 137)
+            .attr("r", 40);
+    d3.select("#time").append("div")
+            .attr("class", "tooltip-notation")
+            .attr("opacity", 1)
+            .style("left", "560px")
+            .style("top", "360px")
+            .style("height", "20px")
+            .style("width", "130px")
+            .html("<p>Second turning point</p>");
 }
